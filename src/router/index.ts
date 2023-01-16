@@ -1,4 +1,4 @@
-import {createRouter, createWebHistory} from 'vue-router';
+import {createRouter, createWebHashHistory} from 'vue-router';
 
 import Cart from '@/views/Cart.vue'
 import Main from '@/views/Main.vue'
@@ -18,7 +18,7 @@ const routes = [
 
 const router = createRouter({
   routes, 
-  history: createWebHistory()
+  history: createWebHashHistory()
 })
 
 export default router
