@@ -6,9 +6,20 @@
 
 <script lang="ts">
 import {defineComponent} from 'vue'
+import {mapStores} from 'pinia'
+import {useProductsStore} from '@/stores/productsStore';
 
 export default defineComponent({
   name: 'TagesApp',
+
+  computed: {
+    ...mapStores(useProductsStore),
+  },
+
+  mounted() {
+    this.productsStore.getCartFromStorage();
+    this.productsStore.getFavoritesFromStorage();
+  }
 })
 </script>
 
