@@ -9,7 +9,17 @@
       :to="{name: 'favorites'}"
     />
 
-    <router-view />
+    <router-view v-slot="{Component}">
+      <transition
+        name="slide"
+        mode="out-in"
+      >
+        <component
+          :is="Component" 
+          :key="$route.path"
+        />
+      </transition>
+    </router-view>
   </div>
 </template>
 
@@ -41,6 +51,14 @@ export default defineComponent({
   color: #000000;
   font: 16px / 1.3 'SF Pro Display', sans-serif;
 
+  @media all and (max-width: 1024px) {
+    padding: 35px;
+  }
+
+  @media all and (max-width: 480px) {
+    padding: 30px;
+  }
+
   &-fixed-buttons {
     position: fixed;
     right: 0;
@@ -49,15 +67,45 @@ export default defineComponent({
     height: 50px;
     font-size: 0;
     border: 1px solid #000;
+    z-index: 999;
+
+    @media all and (max-width: 1024px) {
+      width: 40px;
+      height: 40px;
+    }
+
+    @media all and (max-width: 480px) {
+      width: 32px;
+      height: 32px;
+    }
 
     &--cart {
-      background: url(./assets/images/icons/cart.svg) 50% no-repeat;
+      background: #fff url(./assets/images/icons/cart.svg) 50% no-repeat;
     }
 
     &--favorites {
-      background: url(./assets/images/icons/favorite.svg) 50% no-repeat;
+      background: #fff url(./assets/images/icons/favorite.svg) 50% no-repeat;
       margin-top: 60px;
+
+      @media all and (max-width: 1024px) {
+        margin-top: 50px;
+      }
+
+      @media all and (max-width: 480px) {
+        margin-top: 40px;
+      }
     }
   }
+}
+
+.slide-enter-active,
+.slide-leave-active {
+  transition: opacity 0.5s, transform 0.5s;
+}
+
+.slide-enter-from,
+.slide-leave-to {
+  opacity: 0;
+  transform: translateX(-30%);
 }
 </style>

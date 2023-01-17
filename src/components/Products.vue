@@ -102,20 +102,47 @@ export default defineComponent({
     flex-wrap: wrap;
     margin-right: -48px;
 
+    @media all and (max-width: 1024px) {
+      margin-right: -30px;
+    }
+
+    @media all and (max-width: 768px) {
+      margin-right: -20px;
+    }
+
     &__item {
       flex: 0 0 calc(25% - 48px);
+      max-width: calc(25% - 48px);
       margin: 0 48px 40px 0;
       border: 1px solid #EEEEEE;
       position: relative;
       padding: 9px 12px 4px;
       display: flex;
       flex-direction: column;
+
+      @media all and (max-width: 1024px) {
+        flex-basis: calc(33.333% - 30px);
+        max-width: calc(33.333% - 30px);
+        margin: 0 30px 30px 0;
+      }
+
+      @media all and (max-width: 768px) {
+        flex-basis: calc(50% - 20px);
+        max-width: calc(50% - 20px);
+        margin: 0 20px 20px 0;
+      }
+
+      @media all and (max-width: 400px) {
+        flex-basis: calc(100% - 20px);
+        max-width: calc(100% - 20px);
+        margin: 0 20px 20px 0;
+      }
     }
 
     &__image {
       max-width: 100%;
       display: block;
-      margin: 0 auto auto;
+      margin: 0 auto;
       padding-bottom: 23px;
     }
 
@@ -137,6 +164,7 @@ export default defineComponent({
     }
 
     &__name {
+      margin-top: auto;
       font: 500 16px / 1.4 'SF UI Text', sans-serif;
       text-decoration: none;
       color: inherit;

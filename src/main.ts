@@ -7,7 +7,7 @@ import VueClickAway from "vue3-click-away";
 const pinia = createPinia()
 
 createApp(App)
-  .use(router)
   .use(pinia)
+  .use(router)
   .use(VueClickAway)
   .mount('#app')

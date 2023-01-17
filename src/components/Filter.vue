@@ -141,11 +141,21 @@ export default defineComponent({
     display: flex;
     flex-wrap: wrap;
     margin-right: 24px;
+
+    @media all and (max-width: 768px) {
+      display: block;
+      margin-right: 0;
+    }
   }
 
   &__item {
     margin-right: 24px;
     width: 288px;
+
+    @media all and (max-width: 768px) {
+      width: auto;
+      margin: 0 0 20px;
+    }
 
     &-title {
       font-size: 12px;

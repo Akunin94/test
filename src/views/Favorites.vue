@@ -1,16 +1,23 @@
 <template>
-  <tages-breadcrumbs :links="breadcrumbs" />
-  
-  <h1>Избранное</h1>
+  <div>
+    <tages-breadcrumbs :links="breadcrumbs" />
+    
+    <h1>Избранное</h1>
 
-  <div
-    v-for="(product, index) in productsStore.favorites"
-    :key="product.id"
-  >
-    {{ index + 1 }}) {{ product.name }} {{ product.price.current_price }}{{ productsStore.currency }}
+    <div v-if="!productsStore.favorites.length">
+      Избранных товаров нет
+    </div>
+    <div
+      v-for="(product, index) in productsStore.favorites"
+      :key="product.id"
+    >
+      {{ index + 1 }})
+      <router-link :to="{name: 'product', params: {id: product.id}}">
+        {{ product.name }}
+      </router-link>
+      {{ product.price.current_price }}{{ productsStore.currency }}
+    </div>
   </div>
-
-  <h2>Итого: {{ productsStore.cartSum }}{{ productsStore.currency }} </h2>
 </template>
 
 <script lang="ts">

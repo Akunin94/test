@@ -4,11 +4,23 @@ body {
   margin: 0;
 }
 
+#app {
+  overflow: hidden;
+}
+
 h1 {
   font-size: 36px;
-  line-height: 48px;
+  line-height: 1.33;
   margin-bottom: 32px;
   font-weight: 600;
+
+  @media all and (max-width: 1024px) {
+    font-size: 30px;
+  }
+
+  @media all and (max-width: 480px) {
+    font-size: 24px;
+  }
 }
 
 *, *:before, *:after {

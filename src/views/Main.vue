@@ -1,21 +1,23 @@
 <template>
-  <tages-breadcrumbs :links="breadcrumbs" />
-  
-  <h1>{{ pageName }}</h1>
+  <div>
+    <tages-breadcrumbs :links="breadcrumbs" />
+    
+    <h1>Комплекты стеллажных систем</h1>
 
-  <tages-filter
-    :sort="sort"
-    :sort-selected="sortSelected"
-    :filter="filter"
-    :filter-selected="filterSelected"
-    @sort-change="onSortChange"
-    @filter-change="onFilterChange"
-  />
+    <tages-filter
+      :sort="sort"
+      :sort-selected="sortSelected"
+      :filter="filter"
+      :filter-selected="filterSelected"
+      @sort-change="onSortChange"
+      @filter-change="onFilterChange"
+    />
 
-  <tages-products :products="products" />
+    <tages-products :products="products" />
+  </div>
 </template>
 
-<script>
+<script lang="ts">
 import {defineComponent} from 'vue'
 import TagesBreadcrumbs from '@/components/Breadcrumbs.vue';
 import TagesFilter from '@/components/Filter.vue';
@@ -23,7 +25,8 @@ import TagesProducts from '@/components/Products.vue';
 import {mapStores} from 'pinia'
 import {useProductsStore} from '@/stores/productsStore';
 import _ from 'lodash';
-import {stringify, parseUrl} from 'query-string'
+import { IProduct } from '@/types/entity/product';
+
 
 export default defineComponent({
 	name: 'TestMain',
@@ -36,13 +39,13 @@ export default defineComponent({
 
   data() {
     return {
-      sortSelected: 'asc',
-      filterSelected: '',
+      sortSelected: 'asc' as any,
+      filterSelected: '' as any,
     }
   },
 
 	computed: {
-    products() {
+    products(): IProduct[] {
       let products = this.productsStore.allProducts;
 
       if (this.sortSelected === 'asc') {
@@ -59,10 +62,6 @@ export default defineComponent({
 
       return products;
     },
-
-		pageName() {
-			return 'Комплекты стеллажных систем'
-		},
 
     breadcrumbs() {
       return [
@@ -132,21 +131,24 @@ export default defineComponent({
   },
 
   mounted() {
+    const querySortPrice = this.$route.query.sortPrice;
+    const queryFilterMaterial = this.$route.query.material;
+
     this.productsStore.getAllProducts();
 
-    if (this.$route.query.sortPrice) {
+    if (typeof querySortPrice === 'string') {
       this.sortSelected = this.$route.query.sortPrice
     }
-    if (this.$route.query.material) {
+    if (typeof querySortPrice === 'string') {
       this.filterSelected = this.$route.query.material
     }
   },
 
   methods: {
-    onSortChange(value) {
+    onSortChange(value: string): void {
       this.sortSelected = value;
     },
-    onFilterChange(value) {
+    onFilterChange(value: string): void {
       this.filterSelected = value;
     }
   },
