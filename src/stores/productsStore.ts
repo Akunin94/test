@@ -2,6 +2,7 @@ import {defineStore} from "pinia";
 import {getItem, setItem} from '@/helpers/persistanceStorage';
 
 const products = require('../assets/items.json');
+const materials = require('../assets/materials.json');
 
 export const useProductsStore = defineStore('products', {
   state: () => {
@@ -11,6 +12,7 @@ export const useProductsStore = defineStore('products', {
       addedProducts: [],
       allProducts: [] as [],
       currency: '₽',
+      materials
     }
   },
   getters: {

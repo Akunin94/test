@@ -5,11 +5,13 @@
       :key="product.id"
       class="tages-products__item"
     >
-      <img
-        :src="imageSrc(product)"
-        :alt="product.name"
-        class="tages-products__image"
-      >
+      <router-link :to="{name: 'product', params: {id: product.id}}">
+        <img
+          :src="imageSrc(product)"
+          :alt="product.name"
+          class="tages-products__image"
+        >
+      </router-link>
 
       <div
         v-if="product.price.old_price"
@@ -25,12 +27,13 @@
         {{ product.code }}
       </div>
 
-      <div
+      <router-link
         v-if="product.name"
+        :to="{name: 'product', params: {id: product.id}}"
         class="tages-products__name"
       >
         {{ product.name }}
-      </div>
+      </router-link>
 
       <div class="tages-products__bottom">
         <div
@@ -50,28 +53,8 @@
             {{ Math.ceil(product.price.current_price) }} {{ productsStore.currency }}
           </div>
         </div>
-        <div class="tages-products__actions">
-          <button
-            v-if="isAdded(product)"
-            class="tages-products__button tages-products__button--added"
-            @click="removeFromCart(product)"
-          />
-          <button
-            v-if="!isAdded(product)"
-            class="tages-products__button tages-products__button--add"
-            @click="addToCart(product)"
-          />
-          <button
-            v-if="isFavorite(product)"
-            class="tages-products__button tages-products__button--favorited"
-            @click="removeFromFavorites(product)"
-          />
-          <button
-            v-if="!isFavorite(product)"
-            class="tages-products__button tages-products__button--favorite"
-            @click="addToFavorites(product)"
-          />
-        </div>
+
+        <product-actions :product="product" />
       </div>
     </div>
   </div>
@@ -79,11 +62,19 @@
 
 <script>
 import {defineComponent} from 'vue'
-import {mapStores} from 'pinia'
-import {useProductsStore} from '@/stores/productsStore';
+import ProductActionsMixin from '@/mixins/ProductActionsMixin';
+import ProductActions from '@/components/ProductActions.vue'
 
 export default defineComponent({
   name: 'TagesProducts',
+
+  components: {
+    ProductActions,
+  },
+
+  mixins: [
+    ProductActionsMixin,
+  ],
 
   props: {
     products: {
@@ -92,30 +83,7 @@ export default defineComponent({
     }
   },
 
-  computed: {
-    ...mapStores(useProductsStore)
-  },
-
-  methods: {  
-    isAdded(product) {
-      for (const prod of this.productsStore.cartItems) {
-        if (prod.id === product.id) {
-          return true;
-        }
-      }
-
-      return false;
-    },
-
-    isFavorite(product) {
-      for (const prod of this.productsStore.favorites) {
-        if (prod.id === product.id) {
-          return true;
-        }
-      }
-
-      return false;
-    },
+  methods: { 
 
     imageSrc(product) {
       if (product.image.url) {
@@ -123,22 +91,6 @@ export default defineComponent({
       }
       
       return 'https://via.placeholder.com/150'
-    },
-
-    addToCart(product) {
-      this.productsStore.addToCart(product);
-    },
-
-    removeFromCart(product) {
-      this.productsStore.removeFromCart(product);
-    },
-
-    addToFavorites(product) {
-      this.productsStore.addToFavorites(product);
-    },
-
-    removeFromFavorites(product) {
-      this.productsStore.removeFromFavorites(product);
     }
   }
 })
@@ -185,7 +137,13 @@ export default defineComponent({
     }
 
     &__name {
-      font: 500 16px / 1.4 'SF UI Text', sans-serif
+      font: 500 16px / 1.4 'SF UI Text', sans-serif;
+      text-decoration: none;
+      color: inherit;
+
+      &:hover {
+        text-decoration: underline;
+      }
     }
 
     &__bottom {

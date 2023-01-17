@@ -12,13 +12,13 @@
         {{ name }}
       </span>
 
-      <a
+      <router-link
         v-else
         class="tages-breadcrumbs__link"
-        :href="href"
+        :to="href"
       >
         {{ name }}
-      </a>
+      </router-link>
 
       <span
         v-if="index !== links.length-1"

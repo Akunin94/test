@@ -1,10 +1,10 @@
 <template>
   <tages-breadcrumbs :links="breadcrumbs" />
   
-  <h1>Корзина</h1>
+  <h1>Избранное</h1>
 
   <div
-    v-for="(product, index) in productsStore.cartItems"
+    v-for="(product, index) in productsStore.favorites"
     :key="product.id"
   >
     {{ index + 1 }}) {{ product.name }} {{ product.price.current_price }}{{ productsStore.currency }}
@@ -20,7 +20,7 @@ import {mapStores} from 'pinia'
 import {useProductsStore} from '@/stores/productsStore';
 
 export default defineComponent({
-	name: 'TagesCart',
+	name: 'TagesFavorites',
 
   components: {
     TagesBreadcrumbs
@@ -34,7 +34,7 @@ export default defineComponent({
           href: '/'
         },
         {
-          name: 'Корзина',
+          name: 'Избранное',
           href: '/'
         }
       ]

@@ -23,6 +23,7 @@ import TagesProducts from '@/components/Products.vue';
 import {mapStores} from 'pinia'
 import {useProductsStore} from '@/stores/productsStore';
 import _ from 'lodash';
+import {stringify, parseUrl} from 'query-string'
 
 export default defineComponent({
 	name: 'TestMain',
@@ -119,8 +120,26 @@ export default defineComponent({
     ...mapStores(useProductsStore),
 	},
 
+  watch: {
+    sortSelected(value) {
+      if (value) {
+        this.$router.replace({...this.$route, query: {...this.$route.query, sortPrice: value}})
+      }
+    },
+    filterSelected(value) {
+      this.$router.replace({...this.$route, query: {...this.$route.query, material: value}})
+    }
+  },
+
   mounted() {
-    this.productsStore.getAllProducts()
+    this.productsStore.getAllProducts();
+
+    if (this.$route.query.sortPrice) {
+      this.sortSelected = this.$route.query.sortPrice
+    }
+    if (this.$route.query.material) {
+      this.filterSelected = this.$route.query.material
+    }
   },
 
   methods: {
@@ -130,10 +149,6 @@ export default defineComponent({
     onFilterChange(value) {
       this.filterSelected = value;
     }
-  }
+  },
 })
 </script>
-
-<style lang="scss" scoped>
-
-</style>
